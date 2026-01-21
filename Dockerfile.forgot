@@ -1,0 +1,16 @@
+# Forgot Password Page Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install http-server to serve static files
+RUN npm install -g http-server
+
+# Copy forgot password page
+COPY Forgot_password/index.html ./
+
+# Expose port
+EXPOSE 8151
+
+# Start http-server
+CMD ["http-server", "-p", "8151", "-c-1"]

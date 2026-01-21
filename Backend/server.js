@@ -15,16 +15,24 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 const pool = new Pool({
   user: process.env.DB_USER || 'postgres',
-  host: process.env.DB_HOST || 'postgres',
+  host: process.env.DB_HOST || 'localhost',
   database: process.env.DB_DATABASE || 'login',
-  password: process.env.DB_PASSWORD || 'admin123',
+  password: process.env.DB_PASSWORD || 'admin321',
   port: parseInt(process.env.DB_PORT) || 5432,
 });
 
 // ✅ Updated CORS config
 const allowedOrigins = [
-  'http://127.0.0.1:5500',
-  'http://3.85.56.63:8154'
+  'http://13.62.47.42:8150',
+  'http://13.62.47.42:8151',
+  'http://13.62.47.42:8152',
+  'http://13.62.47.42:8153',
+  'http://13.62.47.42:8150',
+  'http://13.62.47.42:8151',
+  'http://13.62.47.42:8152',
+  'http://13.62.47.42:8153',
+  'http://13.62.47.42:3048',
+  'http://13.62.47.42:3048'
 ];
 
 app.use(cors({
@@ -189,12 +197,123 @@ app.post('/api/signup', upload.single('profilePicture'), async (req, res) => {
   }
 });
 
-// The rest of your routes stay unchanged (login, forgot-password, etc.)
-// [I kept them unchanged to keep this short; copy from your original code.]
+// Login Route
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    const user = result.rows[0];
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    const token = jwt.sign(
+      { userId: user.id, email: user.email },
+      JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 1000
+    });
+
+    console.log('Login successful for:', email);
+    res.status(200).json({
+      message: 'Login successful',
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        profilePicture: user.profile_picture ? `data:image/jpeg;base64,${user.profile_picture}` : null
+      }
+    });
+  } catch (error) {
+    console.error('LOGIN ERROR:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+// Get User Data
+app.get('/api/user', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query('SELECT id, name, email, profile_picture FROM users WHERE id = $1', [req.user.userId]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const user = result.rows[0];
+    res.status(200).json({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        profilePicture: user.profile_picture ? `data:image/jpeg;base64,${user.profile_picture}` : null
+      }
+    });
+  } catch (error) {
+    console.error('GET USER ERROR:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Logout Route
+app.post('/api/logout', (req, res) => {
+  res.clearCookie('token');
+  res.status(200).json({ message: 'Logout successful' });
+});
+
+// Protected Route Test
+app.get('/api/protected', authenticateToken, (req, res) => {
+  res.status(200).json({
+    message: 'This is a protected route',
+    user: req.user
+  });
+});
+
+// Forgot Password Route (placeholder)
+app.post('/api/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Email not found' });
+    }
+
+    // TODO: Implement password reset logic (send email, generate reset token, etc.)
+    res.status(200).json({ message: 'Password reset email sent (not implemented yet)' });
+  } catch (error) {
+    console.error('FORGOT PASSWORD ERROR:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 initDatabase().then(() => {
-  app.listen(port, () => {
-    console.log(`Server running on http://3.85.56.63:${port}`);
+  app.listen(port, '0.0.0.0', () => {
+    console.log(`Server running on port ${port}`);
     console.log('Available routes:');
     console.log('GET  /                 -> Login page');
     console.log('GET  /signup           -> Signup page');
@@ -203,7 +322,7 @@ initDatabase().then(() => {
     console.log('POST /api/signup       -> User registration');
     console.log('POST /api/login        -> User login');
     console.log('POST /api/forgot-password -> Password reset');
-    console.log('GET  /api/user         -> Get user data');
+    console.log('GET  /api/user         -> Get user data (protected)');
     console.log('POST /api/logout       -> User logout');
     console.log('GET  /api/protected    -> Test protected route');
   });

@@ -1,0 +1,16 @@
+# Dashboard Page Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install http-server to serve static files
+RUN npm install -g http-server
+
+# Copy dashboard page
+COPY Dashboard/index.html ./
+
+# Expose port
+EXPOSE 8150
+
+# Start http-server
+CMD ["http-server", "-p", "8150", "-c-1"]

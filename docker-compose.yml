@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: dashingboard-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin321
+      POSTGRES_DB: login
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - dashingboard-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API Server
+  backend:
+    build:
+      context: .
+      dockerfile: Backend/Dockerfile
+    container_name: dashingboard-backend
+    environment:
+      NODE_ENV: production
+      PORT: 3048
+      JWT_SECRET: your_very_secure_jwt_secret_key_here_change_me
+      DB_USER: postgres
+      DB_HOST: postgres
+      DB_DATABASE: login
+      DB_PASSWORD: admin321
+      DB_PORT: 5432
+    ports:
+      - "3048:3048"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - dashingboard-network
+    restart: unless-stopped
+
+  # Login Page
+  login:
+    build:
+      context: .
+      dockerfile: Dockerfile.login
+    container_name: dashingboard-login
+    ports:
+      - "8152:8152"
+    networks:
+      - dashingboard-network
+    restart: unless-stopped
+
+  # Sign Up Page
+  signup:
+    build:
+      context: .
+      dockerfile: Dockerfile.signup
+    container_name: dashingboard-signup
+    ports:
+      - "8153:8153"
+    networks:
+      - dashingboard-network
+    restart: unless-stopped
+
+  # Forgot Password Page
+  forgot:
+    build:
+      context: .
+      dockerfile: Dockerfile.forgot
+    container_name: dashingboard-forgot
+    ports:
+      - "8151:8151"
+    networks:
+      - dashingboard-network
+    restart: unless-stopped
+
+  # Dashboard Page
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    container_name: dashingboard-dashboard
+    ports:
+      - "8150:8150"
+    networks:
+      - dashingboard-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  dashingboard-network:
+    driver: bridge
