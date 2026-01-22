@@ -773,7 +773,7 @@
           // Fetch user data from server
           async function fetchUserData() {
               try {
-                  const response = await fetch('http://16.16.68.191:3048/api/user', {
+                  const response = await fetch('http://16.171.65.2:3048/api/user', {
                       method: 'GET',
                       credentials: 'include'
                   });
@@ -802,7 +802,7 @@
                   console.error('Error fetching user data:', error.message);
                   if (error.message.includes('401') || error.message.includes('403')) {
                       alert('Unauthorized, please login.');
-                      window.location.href = 'http://16.16.68.191:8152/';
+                      window.location.href = 'http://16.171.65.2:8152/';
                   } else {
                       const headerUsername = document.getElementById('header-username');
                       const sidebarProfilePicture = document.getElementById('sidebar-profile-picture');
@@ -948,15 +948,15 @@
               // Logout handling
               async function logout() {
                   try {
-                      await fetch('http://16.16.68.191:3048/api/logout', {
+                      await fetch('http://16.171.65.2:3048/api/logout', {
                           method: 'POST',
                           credentials: 'include'
                       });
                       console.log('Logout successful');
-                      window.location.href = 'http://16.16.68.191:8152/';
+                      window.location.href = 'http://16.171.65.2:8152/';
                   } catch (error) {
                       console.error('Error during logout:', error);
-                      window.location.href = 'http://16.16.68.191:8152/';
+                      window.location.href = 'http://16.171.65.2:8152/';
                   }
               }
 
