@@ -683,25 +683,29 @@
 
       <div class="sidebar">
           <ul class="nav-links">
-              <li><a href="javascript:void(0)"><i class="fas fa-home" style="color: #28a745;"></i> <span>Home</span></a></li>
+              <li><a href="javascript:void(0)" class="menu-link" data-page="Content3.html"><i class="fas fa-home" style="color: #28a745;"></i> <span>Home</span></a></li>
               <li class="has-dropdown">
                   <a href="javascript:void(0)"><i class="fas fa-tachometer-alt" style="color: #ff5722;"></i> <span>HRMS</span> <i class="fas fa-chevron-down"></i></a>
                   <ul class="dropdown">
-                      <li><a href="Recuriment.html" target="iframe-content" title="Recruitment"><i class="fas fa-user-plus"></i><span> Recruitment</span></a></li>
-                      <!-- [Other dropdown items unchanged] -->
+                      <li><a href="Recuriment.html" target="iframe-content" title="Recruitment" class="menu-link"><i class="fas fa-user-plus"></i><span> Recruitment</span></a></li>
+                      <li><a href="javascript:void(0)" class="menu-link" data-page="Payroll.html" title="Payroll"><i class="fas fa-dollar-sign"></i><span> Payroll</span></a></li>
+                      <li><a href="javascript:void(0)" class="menu-link" data-page="Attendance.html" title="Attendance"><i class="fas fa-clipboard-check"></i><span> Attendance</span></a></li>
+                      <li><a href="javascript:void(0)" class="menu-link" data-page="Leave.html" title="Leave Management"><i class="fas fa-calendar-alt"></i><span> Leave</span></a></li>
                   </ul>
               </li>
               <li class="has-dropdown">
                   <a href="javascript:void(0)"><i class="fas fa-user" style="color: #007bff;"></i> <span>EMPLOYEE</span> <i class="fas fa-chevron-down"></i></a>
                   <ul class="dropdown">
-                      <li><a href="Personalinfo_Dashboard.html" target="iframe-content" title="Onboarding"><i class="fas fa-user-plus"></i><span>Onboarding</span></a></li>
-                      <!-- [Other dropdown items unchanged] -->
+                      <li><a href="Personalinfo_Dashboard.html" target="iframe-content" title="Onboarding" class="menu-link"><i class="fas fa-user-plus"></i><span>Onboarding</span></a></li>
+                      <li><a href="javascript:void(0)" class="menu-link" data-page="EmployeeDirectory.html" title="Employee Directory"><i class="fas fa-address-book"></i><span> Directory</span></a></li>
+                      <li><a href="javascript:void(0)" class="menu-link" data-page="Performance.html" title="Performance"><i class="fas fa-star"></i><span> Performance</span></a></li>
+                      <li><a href="javascript:void(0)" class="menu-link" data-page="Training.html" title="Training"><i class="fas fa-graduation-cap"></i><span> Training</span></a></li>
                   </ul>
               </li>
-              <li><a href="javascript:void(0)"><i class="fas fa-chart-line" style="color: #4caf50;"></i> <span>Analytics</span></a></li>
-              <li><a href="javascript:void(0)"><i class="fas fa-tasks" style="color: #ff9800;"></i> <span>Task List</span></a></li>
-              <li><a href="javascript:void(0)"><i class="fas fa-clock" style="color: #2196f3;"></i> <span>Tracking</span></a></li>
-              <li><a href="javascript:void(0)"><i class="fas fa-cog" style="color: #9c27b0;"></i> <span>Settings</span></a></li>
+              <li><a href="javascript:void(0)" class="menu-link" data-page="Analytics.html"><i class="fas fa-chart-line" style="color: #4caf50;"></i> <span>Analytics</span></a></li>
+              <li><a href="javascript:void(0)" class="menu-link" data-page="TaskList.html"><i class="fas fa-tasks" style="color: #ff9800;"></i> <span>Task List</span></a></li>
+              <li><a href="javascript:void(0)" class="menu-link" data-page="Tracking.html"><i class="fas fa-clock" style="color: #2196f3;"></i> <span>Tracking</span></a></li>
+              <li><a href="javascript:void(0)" class="menu-link" data-page="Settings.html"><i class="fas fa-cog" style="color: #9c27b0;"></i> <span>Settings</span></a></li>
               <li><a href="#" id="logoutLink"><i class="fas fa-sign-out-alt" style="color: #2196f3;"></i> <span>Logout</span></a></li>
           </ul>
       </div>
@@ -870,6 +874,20 @@
                       event.stopPropagation();
                       dropdownLinks.forEach(item => item.classList.remove('selected-module'));
                       this.classList.add('selected-module');
+                  });
+              });
+
+              // Handle menu link clicks to load content
+              const menuLinks = document.querySelectorAll('.menu-link');
+              const iframe = document.querySelector('iframe[name="iframe-content"]');
+              
+              menuLinks.forEach(link => {
+                  link.addEventListener('click', function (event) {
+                      const page = this.getAttribute('data-page');
+                      if (page && iframe) {
+                          iframe.src = page;
+                          event.preventDefault();
+                      }
                   });
               });
           });

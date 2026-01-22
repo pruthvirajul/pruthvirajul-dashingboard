@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Management</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #667eea;
+            margin: 0 0 20px 0;
+        }
+        .leave-request {
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            margin: 10px 0;
+            background: #fafafa;
+        }
+        .leave-request h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .leave-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .leave-info {
+            flex: 1;
+            margin: 5px;
+        }
+        .leave-info label {
+            font-weight: bold;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .leave-info p {
+            margin: 5px 0 0 0;
+            color: #333;
+        }
+        .status-approved {
+            background: #c8e6c9;
+            color: #2e7d32;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status-pending {
+            background: #fff3e0;
+            color: #f57f17;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏖️ Leave Management</h1>
+        <p>Manage employee leave requests and approvals.</p>
+        
+        <div class="leave-request">
+            <h3>John Doe - Vacation Leave</h3>
+            <div class="leave-details">
+                <div class="leave-info">
+                    <label>From:</label>
+                    <p>January 25, 2026</p>
+                </div>
+                <div class="leave-info">
+                    <label>To:</label>
+                    <p>January 29, 2026</p>
+                </div>
+                <div class="leave-info">
+                    <label>Days:</label>
+                    <p>5 days</p>
+                </div>
+                <div class="status-approved">✓ Approved</div>
+            </div>
+        </div>
+        
+        <div class="leave-request">
+            <h3>Jane Smith - Sick Leave</h3>
+            <div class="leave-details">
+                <div class="leave-info">
+                    <label>From:</label>
+                    <p>January 23, 2026</p>
+                </div>
+                <div class="leave-info">
+                    <label>To:</label>
+                    <p>January 24, 2026</p>
+                </div>
+                <div class="leave-info">
+                    <label>Days:</label>
+                    <p>2 days</p>
+                </div>
+                <div class="status-pending">⏳ Pending</div>
+            </div>
+        </div>
+        
+        <div class="leave-request">
+            <h3>Mike Johnson - Casual Leave</h3>
+            <div class="leave-details">
+                <div class="leave-info">
+                    <label>From:</label>
+                    <p>February 5, 2026</p>
+                </div>
+                <div class="leave-info">
+                    <label>To:</label>
+                    <p>February 5, 2026</p>
+                </div>
+                <div class="leave-info">
+                    <label>Days:</label>
+                    <p>1 day</p>
+                </div>
+                <div class="status-approved">✓ Approved</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

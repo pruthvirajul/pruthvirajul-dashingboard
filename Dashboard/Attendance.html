@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #667eea;
+            margin: 0 0 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        .status-present {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        .status-absent {
+            color: #c62828;
+            font-weight: bold;
+        }
+        .status-leave {
+            color: #f57f17;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Attendance Tracking</h1>
+        <p>Monitor employee attendance and absences.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Date</th>
+                    <th>Check-in</th>
+                    <th>Check-out</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Doe</td>
+                    <td>2026-01-22</td>
+                    <td>9:00 AM</td>
+                    <td>5:30 PM</td>
+                    <td class="status-present">✓ Present</td>
+                </tr>
+                <tr>
+                    <td>Jane Smith</td>
+                    <td>2026-01-22</td>
+                    <td>9:15 AM</td>
+                    <td>5:45 PM</td>
+                    <td class="status-present">✓ Present</td>
+                </tr>
+                <tr>
+                    <td>Mike Johnson</td>
+                    <td>2026-01-22</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td class="status-leave">🔴 Leave</td>
+                </tr>
+                <tr>
+                    <td>Sarah Williams</td>
+                    <td>2026-01-22</td>
+                    <td>9:30 AM</td>
+                    <td>6:00 PM</td>
+                    <td class="status-present">✓ Present</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

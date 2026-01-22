@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Directory</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #667eea;
+            margin: 0 0 20px 0;
+        }
+        .employee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .employee-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .employee-avatar {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        .employee-card h3 {
+            margin: 10px 0 5px 0;
+        }
+        .employee-card p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👥 Employee Directory</h1>
+        <p>View all employees and their details.</p>
+        
+        <div class="employee-grid">
+            <div class="employee-card">
+                <div class="employee-avatar">👨‍💼</div>
+                <h3>John Doe</h3>
+                <p>Senior Engineer</p>
+                <p>Engineering Dept.</p>
+                <p>john.doe@company.com</p>
+            </div>
+            
+            <div class="employee-card">
+                <div class="employee-avatar">👩‍💼</div>
+                <h3>Jane Smith</h3>
+                <p>Marketing Manager</p>
+                <p>Marketing Dept.</p>
+                <p>jane.smith@company.com</p>
+            </div>
+            
+            <div class="employee-card">
+                <div class="employee-avatar">👨‍💼</div>
+                <h3>Mike Johnson</h3>
+                <p>Sales Executive</p>
+                <p>Sales Dept.</p>
+                <p>mike.j@company.com</p>
+            </div>
+            
+            <div class="employee-card">
+                <div class="employee-avatar">👩‍💼</div>
+                <h3>Sarah Williams</h3>
+                <p>HR Manager</p>
+                <p>HR Dept.</p>
+                <p>sarah.w@company.com</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
