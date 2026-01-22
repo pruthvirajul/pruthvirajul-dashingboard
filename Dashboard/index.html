@@ -687,7 +687,7 @@
               <li class="has-dropdown">
                   <a href="javascript:void(0)"><i class="fas fa-tachometer-alt" style="color: #ff5722;"></i> <span>HRMS</span> <i class="fas fa-chevron-down"></i></a>
                   <ul class="dropdown">
-                      <li><a href="javascript:void(0)" class="menu-link" data-page="Recuriment.html" title="Recruitment"><i class="fas fa-user-plus"></i><span> Recruitment</span></a></li>
+                      <li><a href="javascript:void(0)" class="menu-link" data-page="Recruitment.html" title="Recruitment"><i class="fas fa-user-plus"></i><span> Recruitment</span></a></li>
                       <li><a href="javascript:void(0)" class="menu-link" data-page="Payroll.html" title="Payroll"><i class="fas fa-dollar-sign"></i><span> Payroll</span></a></li>
                       <li><a href="javascript:void(0)" class="menu-link" data-page="Attendance.html" title="Attendance"><i class="fas fa-clipboard-check"></i><span> Attendance</span></a></li>
                       <li><a href="javascript:void(0)" class="menu-link" data-page="Leave.html" title="Leave Management"><i class="fas fa-calendar-alt"></i><span> Leave</span></a></li>
@@ -773,7 +773,7 @@
           // Fetch user data from server
           async function fetchUserData() {
               try {
-                  const response = await fetch('http://16.171.65.2:3048/api/user', {
+                  const response = await fetch('http://16.16.68.191:3048/api/user', {
                       method: 'GET',
                       credentials: 'include'
                   });
@@ -802,7 +802,7 @@
                   console.error('Error fetching user data:', error.message);
                   if (error.message.includes('401') || error.message.includes('403')) {
                       alert('Unauthorized, please login.');
-                      window.location.href = 'http://16.171.65.2:8152/';
+                      window.location.href = 'http://16.16.68.191:8152/';
                   } else {
                       const headerUsername = document.getElementById('header-username');
                       const sidebarProfilePicture = document.getElementById('sidebar-profile-picture');
@@ -948,15 +948,15 @@
               // Logout handling
               async function logout() {
                   try {
-                      await fetch('http://16.171.65.2:3048/api/logout', {
+                      await fetch('http://16.16.68.191:3048/api/logout', {
                           method: 'POST',
                           credentials: 'include'
                       });
                       console.log('Logout successful');
-                      window.location.href = 'http://16.171.65.2:8152/';
+                      window.location.href = 'http://16.16.68.191:8152/';
                   } catch (error) {
                       console.error('Error during logout:', error);
-                      window.location.href = 'http://16.171.65.2:8152/';
+                      window.location.href = 'http://16.16.68.191:8152/';
                   }
               }
 

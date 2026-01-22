@@ -133,7 +133,7 @@
 
         async function loadMyLeaves() {
             try {
-                const response = await fetch('http://16.171.65.2:3048/api/leave/my', { credentials: 'include' });
+                const response = await fetch('http://16.16.68.191:3048/api/leave/my', { credentials: 'include' });
                 const leaves = await response.json();
                 
                 if (leaves.length === 0) {
@@ -158,7 +158,7 @@
 
         async function loadPendingLeaves() {
             try {
-                const response = await fetch('http://16.171.65.2:3048/api/leave/pending', { credentials: 'include' });
+                const response = await fetch('http://16.16.68.191:3048/api/leave/pending', { credentials: 'include' });
                 const leaves = await response.json();
                 
                 if (leaves.length === 0) {
@@ -199,7 +199,7 @@
             }
 
             try {
-                const response = await fetch('http://16.171.65.2:3048/api/leave/apply', {
+                const response = await fetch('http://16.16.68.191:3048/api/leave/apply', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
@@ -219,7 +219,7 @@
 
         async function approveLeave(leaveId) {
             try {
-                await fetch(`http://16.171.65.2:3048/api/leave/approve/${leaveId}`, {
+                await fetch(`http://16.16.68.191:3048/api/leave/approve/${leaveId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
@@ -233,7 +233,7 @@
 
         async function rejectLeave(leaveId) {
             try {
-                await fetch(`http://16.171.65.2:3048/api/leave/approve/${leaveId}`, {
+                await fetch(`http://16.16.68.191:3048/api/leave/approve/${leaveId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
