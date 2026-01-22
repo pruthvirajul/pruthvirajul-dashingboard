@@ -16,7 +16,7 @@
 
         .background-half {
             flex: 1;
-            background-image: url('blob:https://web.whatsapp.com/daccac86-d013-44ef-9291-bbb7c95fd637');
+            background-image: url('https://th.bing.com/th/id/OIP.L_Iq2oSnC9ft5CuSFA0D_QHaHa?rs=1&pid=ImgDetMain');
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -173,7 +173,7 @@
                 <button type="submit">Sign Up</button>
             </form>
 
-            <a href="http://13.62.228.92:8152/">Already have an account? Sign In</a>
+            <a href="http://13.49.75.13:8152/">Already have an account? Sign In</a>
         </div>
     </div>
 
@@ -264,7 +264,7 @@
             }
 
             try {
-                const response = await fetch('http://13.62.228.92:3048/api/signup', {
+                const response = await fetch('http://13.49.75.13:3048/api/signup', {
                     method: 'POST',
                     credentials: 'include', // Important for cookies
                     body: formData
@@ -290,7 +290,7 @@
                 alert('Signup successful! Redirecting to Login page...');
                 
                 // Redirect to login page after successful signup
-                window.location.href = 'http://13.62.228.92:8152/';
+                window.location.href = 'http://13.49.75.13:8152/';
                 
             } catch (error) {
                 console.error('Signup request failed:', error);
