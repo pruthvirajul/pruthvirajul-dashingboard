@@ -229,15 +229,15 @@ app.get('/', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, '../Sign_up/index.html'));
+  res.sendFile(path.join(__dirname, '../Sign/index.html'));
 });
 
 app.get('/forgot-password', (req, res) => {
-  res.sendFile(path.join(__dirname, '../Forgot/index.html'));
+  res.sendFile(path.join(__dirname, '../Forgot_password/index.html'));
 });
 
 app.get('/dashboard', authenticateToken, (req, res) => {
-  const filePath = path.join(__dirname, '../Dashboard/dashboard.html');
+  const filePath = path.join(__dirname, '../Dashboard/index.html');
   console.log('Attempting to serve:', filePath);
   res.sendFile(filePath);
 });
