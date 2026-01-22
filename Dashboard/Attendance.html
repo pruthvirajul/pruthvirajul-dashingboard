@@ -3,99 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance</title>
+    <title>Attendance Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #667eea;
-            margin: 0 0 20px 0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        th {
-            background: #667eea;
-            color: white;
-            font-weight: bold;
-        }
-        .status-present {
-            color: #2e7d32;
-            font-weight: bold;
-        }
-        .status-absent {
-            color: #c62828;
-            font-weight: bold;
-        }
-        .status-leave {
-            color: #f57f17;
-            font-weight: bold;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; padding: 30px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { font-size: 28px; color: #333; margin-bottom: 30px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .stat-number { font-size: 28px; color: #667eea; font-weight: bold; }
+        .stat-label { color: #666; font-size: 14px; margin-top: 5px; }
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        th { background: #667eea; color: white; padding: 15px; text-align: left; font-weight: 600; }
+        td { padding: 15px; border-bottom: 1px solid #eee; }
+        tr:hover { background: #f8f9fa; }
+        .badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .badge-present { background: #d4edda; color: #155724; }
+        .badge-absent { background: #f8d7da; color: #721c24; }
+        .badge-late { background: #fff3cd; color: #856404; }
+        .loading { text-align: center; padding: 40px; color: #999; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📋 Attendance Tracking</h1>
-        <p>Monitor employee attendance and absences.</p>
-        
+        <h1>🕒 Attendance Management</h1>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalEmployees">0</div>
+                <div class="stat-label">Total Employees</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="presentToday">0</div>
+                <div class="stat-label">Present Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="absentToday">0</div>
+                <div class="stat-label">Absent Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="attendanceRate">0%</div>
+                <div class="stat-label">Attendance Rate</div>
+            </div>
+        </div>
+
         <table>
             <thead>
                 <tr>
-                    <th>Employee Name</th>
-                    <th>Date</th>
+                    <th>Employee</th>
                     <th>Check-in</th>
                     <th>Check-out</th>
+                    <th>Total Hours</th>
                     <th>Status</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>John Doe</td>
-                    <td>2026-01-22</td>
-                    <td>9:00 AM</td>
-                    <td>5:30 PM</td>
-                    <td class="status-present">✓ Present</td>
-                </tr>
-                <tr>
-                    <td>Jane Smith</td>
-                    <td>2026-01-22</td>
-                    <td>9:15 AM</td>
-                    <td>5:45 PM</td>
-                    <td class="status-present">✓ Present</td>
-                </tr>
-                <tr>
-                    <td>Mike Johnson</td>
-                    <td>2026-01-22</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td class="status-leave">🔴 Leave</td>
-                </tr>
-                <tr>
-                    <td>Sarah Williams</td>
-                    <td>2026-01-22</td>
-                    <td>9:30 AM</td>
-                    <td>6:00 PM</td>
-                    <td class="status-present">✓ Present</td>
-                </tr>
+            <tbody id="attendanceTable">
+                <tr><td colspan="5" class="loading">Loading attendance data...</td></tr>
             </tbody>
         </table>
     </div>
+
+    <script>
+        async function loadAttendance() {
+            try {
+                const response = await fetch('http://16.16.68.191:3048/api/attendance/monthly', {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+
+                if (data.length === 0) {
+                    document.getElementById('attendanceTable').innerHTML = '<tr><td colspan="5" class="loading">No attendance data</td></tr>';
+                    updateStats(0, 0, 0);
+                    return;
+                }
+
+                // Calculate stats
+                const presentCount = data.filter(a => a.status === 'present').length;
+                const absentCount = data.filter(a => a.status === 'absent').length;
+                const totalEmployees = new Set(data.map(a => a.employee_id)).size;
+                const attendanceRate = totalEmployees ? Math.round((presentCount / totalEmployees) * 100) : 0;
+
+                updateStats(totalEmployees, presentCount, absentCount, attendanceRate);
+
+                document.getElementById('attendanceTable').innerHTML = data.map(a => {
+                    const checkIn = a.check_in ? new Date(a.check_in).toLocaleTimeString() : 'N/A';
+                    const checkOut = a.check_out ? new Date(a.check_out).toLocaleTimeString() : 'N/A';
+                    const hours = a.check_in && a.check_out ? 
+                        Math.round((new Date(a.check_out) - new Date(a.check_in)) / 3600000 * 100) / 100 : 'N/A';
+
+                    return `
+                        <tr>
+                            <td><strong>${a.name}</strong></td>
+                            <td>${checkIn}</td>
+                            <td>${checkOut}</td>
+                            <td>${hours} hrs</td>
+                            <td><span class="badge badge-${a.status}">${a.status.toUpperCase()}</span></td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading attendance:', error);
+                document.getElementById('attendanceTable').innerHTML = '<tr><td colspan="5" class="loading">Error loading attendance</td></tr>';
+            }
+        }
+
+        function updateStats(total, present, absent, rate = 0) {
+            document.getElementById('totalEmployees').textContent = total;
+            document.getElementById('presentToday').textContent = present;
+            document.getElementById('absentToday').textContent = absent;
+            document.getElementById('attendanceRate').textContent = rate + '%';
+        }
+
+        loadAttendance();
+    </script>
 </body>
 </html>

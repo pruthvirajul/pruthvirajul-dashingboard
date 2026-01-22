@@ -3,85 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payroll</title>
+    <title>Payroll Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #667eea;
-            margin: 0 0 20px 0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        th {
-            background: #667eea;
-            color: white;
-            font-weight: bold;
-        }
-        tr:hover {
-            background: #f9f9f9;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; padding: 30px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { font-size: 28px; color: #333; margin-bottom: 30px; display: flex; align-items: center; gap: 10px; }
+        .controls { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        input, select { padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .btn { background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+        .btn:hover { background: #764ba2; }
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        th { background: #667eea; color: white; padding: 15px; text-align: left; font-weight: 600; }
+        td { padding: 15px; border-bottom: 1px solid #eee; }
+        tr:hover { background: #f8f9fa; }
+        .badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .badge-pending { background: #fff3cd; color: #856404; }
+        .badge-processed { background: #d4edda; color: #155724; }
+        .loading { text-align: center; padding: 40px; color: #999; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>💰 Payroll Management</h1>
-        <p>Manage employee salaries and compensation.</p>
         
+        <div class="controls">
+            <select id="monthSelect" onchange="loadPayroll()">
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+            <button class="btn" onclick="loadPayroll()">Search</button>
+        </div>
+
         <table>
             <thead>
                 <tr>
-                    <th>Employee Name</th>
-                    <th>Department</th>
-                    <th>Monthly Salary</th>
+                    <th>Employee</th>
+                    <th>Basic Salary</th>
+                    <th>Allowances</th>
+                    <th>Deductions</th>
+                    <th>Gross Salary</th>
+                    <th>Net Salary</th>
                     <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>John Doe</td>
-                    <td>Engineering</td>
-                    <td>$5,000</td>
-                    <td>✓ Paid</td>
-                </tr>
-                <tr>
-                    <td>Jane Smith</td>
-                    <td>Marketing</td>
-                    <td>$4,500</td>
-                    <td>✓ Paid</td>
-                </tr>
-                <tr>
-                    <td>Mike Johnson</td>
-                    <td>Sales</td>
-                    <td>$4,000</td>
-                    <td>⏳ Pending</td>
-                </tr>
-                <tr>
-                    <td>Sarah Williams</td>
-                    <td>HR</td>
-                    <td>$3,800</td>
-                    <td>✓ Paid</td>
-                </tr>
+            <tbody id="payrollTable">
+                <tr><td colspan="8" class="loading">Loading payroll data...</td></tr>
             </tbody>
         </table>
     </div>
+
+    <script>
+        function loadPayroll() {
+            const month = document.getElementById('monthSelect').value;
+            fetch(`http://16.16.68.191:3048/api/payroll/${month}`, { credentials: 'include' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        document.getElementById('payrollTable').innerHTML = '<tr><td colspan="8" class="loading">No payroll data for this month</td></tr>';
+                        return;
+                    }
+                    document.getElementById('payrollTable').innerHTML = data.map(p => `
+                        <tr>
+                            <td><strong>${p.name}</strong></td>
+                            <td>$${parseFloat(p.basic_salary).toFixed(2)}</td>
+                            <td>$${parseFloat(p.allowances || 0).toFixed(2)}</td>
+                            <td>$${parseFloat(p.deductions || 0).toFixed(2)}</td>
+                            <td>$${parseFloat(p.gross_salary || 0).toFixed(2)}</td>
+                            <td><strong>$${parseFloat(p.net_salary).toFixed(2)}</strong></td>
+                            <td><span class="badge badge-${p.status}">${p.status}</span></td>
+                            <td><button class="btn" style="padding: 5px 10px; font-size: 12px;">Download</button></td>
+                        </tr>
+                    `).join('');
+                })
+                .catch(e => {
+                    console.error(e);
+                    document.getElementById('payrollTable').innerHTML = '<tr><td colspan="8" class="loading">Error loading payroll</td></tr>';
+                });
+        }
+
+        loadPayroll();
+    </script>
 </body>
 </html>

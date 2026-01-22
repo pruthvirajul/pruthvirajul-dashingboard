@@ -1,0 +1,128 @@
+<!-- 
+DASHBOARD MENU CONFIGURATION
+All menu items and their corresponding pages
+
+Copy this to index.html to ensure all buttons work correctly
+-->
+
+<!-- HOME MENU ITEM -->
+<li><a href="javascript:void(0)" class="menu-link" data-page="Home.html">
+    <i class="fas fa-home" style="color: #28a745;"></i> 
+    <span>Home</span>
+</a></li>
+
+<!-- HRMS SECTION DROPDOWN -->
+<li>
+    <a href="javascript:void(0)" style="display:flex;justify-content:space-between;align-items:center;" 
+       onclick="toggleDropdown(this)">
+        <span style="display:flex;align-items:center;gap:10px;">
+            <i class="fas fa-briefcase"></i> HRMS
+        </span>
+        <i class="fas fa-chevron-down" style="margin-right:15px;"></i>
+    </a>
+    <ul class="dropdown">
+        <li><a href="javascript:void(0)" class="menu-link" data-page="Recruitment.html" 
+               title="Recruitment Management">
+            <i class="fas fa-user-plus"></i><span> Recruitment</span>
+        </a></li>
+        <li><a href="javascript:void(0)" class="menu-link" data-page="Payroll.html" 
+               title="Payroll Management">
+            <i class="fas fa-dollar-sign"></i><span> Payroll</span>
+        </a></li>
+        <li><a href="javascript:void(0)" class="menu-link" data-page="Attendance.html" 
+               title="Attendance Tracking">
+            <i class="fas fa-clipboard-check"></i><span> Attendance</span>
+        </a></li>
+        <li><a href="javascript:void(0)" class="menu-link" data-page="Leave.html" 
+               title="Leave Management">
+            <i class="fas fa-calendar-alt"></i><span> Leave</span>
+        </a></li>
+    </ul>
+</li>
+
+<!-- EMPLOYEE SECTION DROPDOWN -->
+<li>
+    <a href="javascript:void(0)" style="display:flex;justify-content:space-between;align-items:center;" 
+       onclick="toggleDropdown(this)">
+        <span style="display:flex;align-items:center;gap:10px;">
+            <i class="fas fa-users"></i> EMPLOYEE
+        </span>
+        <i class="fas fa-chevron-down" style="margin-right:15px;"></i>
+    </a>
+    <ul class="dropdown">
+        <li><a href="javascript:void(0)" class="menu-link" data-page="Personalinfo_Dashboard.html" 
+               title="Employee Onboarding">
+            <i class="fas fa-user-plus"></i><span>Onboarding</span>
+        </a></li>
+        <li><a href="javascript:void(0)" class="menu-link" data-page="EmployeeDirectory.html" 
+               title="Employee Directory">
+            <i class="fas fa-address-book"></i><span> Directory</span>
+        </a></li>
+        <li><a href="javascript:void(0)" class="menu-link" data-page="Performance.html" 
+               title="Performance Management">
+            <i class="fas fa-star"></i><span> Performance</span>
+        </a></li>
+        <li><a href="javascript:void(0)" class="menu-link" data-page="Training.html" 
+               title="Training Programs">
+            <i class="fas fa-graduation-cap"></i><span> Training</span>
+        </a></li>
+    </ul>
+</li>
+
+<!-- STANDALONE MENU ITEMS -->
+<li><a href="javascript:void(0)" class="menu-link" data-page="Analytics.html">
+    <i class="fas fa-chart-line" style="color: #4caf50;"></i> 
+    <span>Analytics</span>
+</a></li>
+
+<li><a href="javascript:void(0)" class="menu-link" data-page="TaskList.html">
+    <i class="fas fa-tasks" style="color: #ff9800;"></i> 
+    <span>Task List</span>
+</a></li>
+
+<li><a href="javascript:void(0)" class="menu-link" data-page="Tracking.html">
+    <i class="fas fa-clock" style="color: #2196f3;"></i> 
+    <span>Tracking</span>
+</a></li>
+
+<li><a href="javascript:void(0)" class="menu-link" data-page="Settings.html">
+    <i class="fas fa-cog" style="color: #9c27b0;"></i> 
+    <span>Settings</span>
+</a></li>
+
+<!--
+IMPORTANT JAVASCRIPT HANDLER:
+
+This code should be in the main Dashboard/index.html file within DOMContentLoaded:
+
+document.addEventListener('DOMContentLoaded', function () {
+    const iframe = document.querySelector('iframe[name="iframe-content"]');
+    
+    // Handle menu link clicks
+    document.addEventListener('click', function (event) {
+        const link = event.target.closest('.menu-link');
+        if (link) {
+            const page = link.getAttribute('data-page');
+            if (page && iframe) {
+                iframe.src = page;
+                event.preventDefault();
+            }
+        }
+    });
+});
+
+QUICK CHECKLIST:
+✅ Each menu item has: class="menu-link"
+✅ Each menu item has: data-page="FileName.html"
+✅ iframe is named: name="iframe-content"
+✅ JavaScript handler is in DOMContentLoaded
+✅ Event delegation catches all .menu-link clicks
+✅ File names match the actual HTML files in Dashboard folder
+✅ All HTML files exist in the Dashboard folder
+
+COMMON ISSUES:
+- Menu buttons not working? Check browser console (F12 → Console)
+- Wrong page loads? Check data-page attribute matches actual filename
+- Page is blank? Hard refresh (Ctrl+Shift+R) or clear cache
+- Icons not showing? Include: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+-->
