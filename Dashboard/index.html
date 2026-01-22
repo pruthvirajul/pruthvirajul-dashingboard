@@ -867,19 +867,13 @@
               }
           });
 
+          // ===== MAIN INITIALIZATION ON DOM READY =====
           document.addEventListener('DOMContentLoaded', function () {
-              const dropdownLinks = document.querySelectorAll('.dropdown li a');
+              // Fetch user data on page load
+              fetchUserData();
+              
               const iframe = document.querySelector('iframe[name="iframe-content"]');
               
-              // Handle dropdown link clicks
-              dropdownLinks.forEach(link => {
-                  link.addEventListener('click', function (event) {
-                      event.stopPropagation();
-                      dropdownLinks.forEach(item => item.classList.remove('selected-module'));
-                      this.classList.add('selected-module');
-                  });
-              });
-
               // Handle all menu link clicks to load content into iframe
               document.addEventListener('click', function (event) {
                   const link = event.target.closest('.menu-link');
@@ -891,96 +885,103 @@
                       }
                   }
               });
-          });
-
-          // Status dropdown handling
-          const statusDropdown = document.getElementById('statusDropdown');
-          const addStatusModal = document.getElementById('addStatusModal');
-          const addStatusForm = document.getElementById('addStatusForm');
-          const cancelModalBtn = document.getElementById('cancelModal');
-
-          if (statusDropdown && addStatusModal) {
-              statusDropdown.addEventListener('change', function () {
-                  if (this.value === 'add-status') {
-                      addStatusModal.style.display = 'flex';
-                      this.value = 'available';
-                  }
-              });
-          }
-
-          if (addStatusModal) {
-              addStatusModal.addEventListener('click', function (event) {
-                  if (event.target === addStatusModal) {
-                      addStatusModal.style.display = 'none';
-                  }
-              });
-          }
-
-          if (cancelModalBtn) {
-              cancelModalBtn.addEventListener('click', function () {
-                  addStatusModal.style.display = 'none';
-              });
-          }
-
-          if (addStatusForm) {
-              addStatusForm.addEventListener('submit', function (event) {
-                  event.preventDefault();
-                  const statusName = document.getElementById('statusName').value;
-                  const statusColor = document.getElementById('statusColor').value;
-
-                  if (statusName.trim()) {
-                      const newOption = document.createElement('option');
-                      newOption.value = statusName.toLowerCase().replace(/\s+/g, '-');
-                      newOption.textContent = `● ${statusName}`;
-                      newOption.style.color = statusColor;
-                      statusDropdown.insertBefore(newOption, statusDropdown.querySelector('option[value="add-status"]'));
-                      addStatusModal.style.display = 'none';
-                      addStatusForm.reset();
-                  } else {
-                      alert('Please enter a status name.');
-                  }
-              });
-          }
-
-          // Logout handling
-          async function logout() {
-              try {
-                  await fetch('http://16.16.68.191:3048/api/logout', {
-                      method: 'POST',
-                      credentials: 'include'
+              
+              // Handle dropdown link clicks
+              const dropdownLinks = document.querySelectorAll('.dropdown li a');
+              dropdownLinks.forEach(link => {
+                  link.addEventListener('click', function (event) {
+                      event.stopPropagation();
+                      dropdownLinks.forEach(item => item.classList.remove('selected-module'));
+                      this.classList.add('selected-module');
                   });
-                  console.log('Logout successful');
-                  window.location.href = 'http://16.16.68.191:8152/';
-              } catch (error) {
-                  console.error('Error during logout:', error);
-                  window.location.href = 'http://16.16.68.191:8152/';
-              }
-          }
-
-          const logoutLink = document.getElementById('logoutLink');
-          if (logoutLink) {
-              logoutLink.addEventListener('click', function (event) {
-                  event.preventDefault();
-                  logout();
               });
-          }
+              
+              // Status dropdown handling
+              const statusDropdown = document.getElementById('statusDropdown');
+              const addStatusModal = document.getElementById('addStatusModal');
+              const addStatusForm = document.getElementById('addStatusForm');
+              const cancelModalBtn = document.getElementById('cancelModal');
 
-          // Responsive handling
-          function handleResize() {
-              const sidebar = document.querySelector('.sidebar');
-              const mainContent = document.querySelector('.main-content');
-              if (sidebar && mainContent && window.innerWidth <= 992) {
-                  sidebar.classList.remove('collapsed');
-                  mainContent.classList.remove('expanded');
-                  sidebar.classList.remove('active');
+              if (statusDropdown && addStatusModal) {
+                  statusDropdown.addEventListener('change', function () {
+                      if (this.value === 'add-status') {
+                          addStatusModal.style.display = 'flex';
+                          this.value = 'available';
+                      }
+                  });
               }
-          }
 
-          window.addEventListener('resize', handleResize);
-          handleResize();
+              if (addStatusModal) {
+                  addStatusModal.addEventListener('click', function (event) {
+                      if (event.target === addStatusModal) {
+                          addStatusModal.style.display = 'none';
+                      }
+                  });
+              }
 
-          // Call fetchUserData on page load
-          document.addEventListener('DOMContentLoaded', fetchUserData);
+              if (cancelModalBtn) {
+                  cancelModalBtn.addEventListener('click', function () {
+                      addStatusModal.style.display = 'none';
+                  });
+              }
+
+              if (addStatusForm) {
+                  addStatusForm.addEventListener('submit', function (event) {
+                      event.preventDefault();
+                      const statusName = document.getElementById('statusName').value;
+                      const statusColor = document.getElementById('statusColor').value;
+
+                      if (statusName.trim()) {
+                          const newOption = document.createElement('option');
+                          newOption.value = statusName.toLowerCase().replace(/\s+/g, '-');
+                          newOption.textContent = `● ${statusName}`;
+                          newOption.style.color = statusColor;
+                          statusDropdown.insertBefore(newOption, statusDropdown.querySelector('option[value="add-status"]'));
+                          addStatusModal.style.display = 'none';
+                          addStatusForm.reset();
+                      } else {
+                          alert('Please enter a status name.');
+                      }
+                  });
+              }
+
+              // Logout handling
+              async function logout() {
+                  try {
+                      await fetch('http://16.16.68.191:3048/api/logout', {
+                          method: 'POST',
+                          credentials: 'include'
+                      });
+                      console.log('Logout successful');
+                      window.location.href = 'http://16.16.68.191:8152/';
+                  } catch (error) {
+                      console.error('Error during logout:', error);
+                      window.location.href = 'http://16.16.68.191:8152/';
+                  }
+              }
+
+              const logoutLink = document.getElementById('logoutLink');
+              if (logoutLink) {
+                  logoutLink.addEventListener('click', function (event) {
+                      event.preventDefault();
+                      logout();
+                  });
+              }
+
+              // Responsive handling
+              function handleResize() {
+                  const sidebar = document.querySelector('.sidebar');
+                  const mainContent = document.querySelector('.main-content');
+                  if (sidebar && mainContent && window.innerWidth <= 992) {
+                      sidebar.classList.remove('collapsed');
+                      mainContent.classList.remove('expanded');
+                      sidebar.classList.remove('active');
+                  }
+              }
+
+              window.addEventListener('resize', handleResize);
+              handleResize();
+          });
       </script>
   </body>
 </html>
