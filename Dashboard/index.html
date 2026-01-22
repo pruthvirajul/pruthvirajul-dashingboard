@@ -854,6 +854,23 @@
               });
           });
 
+          // ===== HANDLE MENU LINK CLICKS - LOAD CONTENT INTO IFRAME =====
+          document.addEventListener('click', function (event) {
+              const link = event.target.closest('.menu-link');
+              if (link) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  const page = link.getAttribute('data-page');
+                  const iframe = document.querySelector('iframe[name="iframe-content"]');
+                  console.log('Menu clicked:', page, 'iframe:', iframe);
+                  if (page && iframe) {
+                      iframe.src = page;
+                      console.log('Loading page:', page);
+                  }
+                  return false;
+              }
+          });
+
           document.addEventListener('click', function (event) {
               const target = event.target;
               const isDropdownOrChild = target.closest('.has-dropdown');
@@ -871,26 +888,6 @@
           document.addEventListener('DOMContentLoaded', function () {
               // Fetch user data on page load
               fetchUserData();
-              
-              const iframe = document.querySelector('iframe[name="iframe-content"]');
-              
-              // Handle all menu link clicks to load content into iframe
-              document.addEventListener('click', function (event) {
-                  const link = event.target.closest('.menu-link');
-                  if (link) {
-                      const page = link.getAttribute('data-page');
-                      console.log('Menu clicked:', page, 'iframe:', iframe); // Debug log
-                      if (page && iframe) {
-                          iframe.src = page;
-                          console.log('Loading page:', page); // Debug log
-                          event.preventDefault();
-                          event.stopPropagation();
-                      }
-                  }
-              });
-              
-              // Handle dropdown link clicks - REMOVED to allow menu-link handler to work
-              // The menu-link handler below will take care of loading pages
               
               // Status dropdown handling
               const statusDropdown = document.getElementById('statusDropdown');
