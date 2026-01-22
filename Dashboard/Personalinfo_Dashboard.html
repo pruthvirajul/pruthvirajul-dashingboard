@@ -8,51 +8,71 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        body {
+        html, body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-            padding: 30px;
+            background-color: #ffffff;
+            color: #333;
+            height: 100%;
+            overflow-x: hidden;
         }
         
-        .container { max-width: 1200px; margin: 0 auto; }
+        body {
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto;
+            background: white;
+        }
         
         h1 {
-            color: #333;
-            margin-bottom: 30px;
+            color: #667eea;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 28px;
+        }
+        
+        h2 {
+            color: #667eea;
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 20px;
         }
         
         .onboarding-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
             margin-bottom: 40px;
         }
         
         .onboarding-card {
             background: white;
-            padding: 25px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             border-left: 4px solid #667eea;
             transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
         }
         
         .onboarding-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
         
         .card-icon {
-            font-size: 2.5em;
+            font-size: 40px;
             color: #667eea;
             margin-bottom: 15px;
         }
         
         .card-title {
-            font-size: 1.2em;
+            font-size: 16px;
             color: #333;
             margin-bottom: 10px;
             font-weight: 600;
@@ -60,8 +80,8 @@
         
         .card-description {
             color: #666;
-            font-size: 0.95em;
-            line-height: 1.6;
+            font-size: 14px;
+            line-height: 1.5;
             margin-bottom: 15px;
         }
         
@@ -75,6 +95,7 @@
             font-weight: 600;
             width: 100%;
             transition: background 0.3s;
+            font-size: 14px;
         }
         
         .btn:hover {
@@ -83,58 +104,51 @@
         
         .section {
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-        
-        .section h2 {
-            color: #333;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin-bottom: 25px;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .form-group label {
             display: block;
             color: #333;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            font-size: 14px;
         }
         
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 6px;
             font-family: 'Poppins', sans-serif;
-            font-size: 0.95em;
+            font-size: 14px;
         }
         
         .form-group textarea {
-            min-height: 100px;
+            min-height: 80px;
             resize: vertical;
         }
         
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 15px;
         }
         
         .status-badge {
             display: inline-block;
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 20px;
-            font-size: 0.85em;
+            font-size: 12px;
             font-weight: 600;
         }
         
@@ -151,25 +165,41 @@
         .info-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 15px;
+            font-size: 14px;
         }
         
         .info-table th {
             background: #f5f5f5;
             color: #333;
-            padding: 12px;
+            padding: 10px;
             text-align: left;
             font-weight: 600;
             border-bottom: 2px solid #ddd;
         }
         
         .info-table td {
-            padding: 12px;
+            padding: 10px;
             border-bottom: 1px solid #ddd;
         }
         
         .info-table tr:hover {
             background: #f9f9f9;
+        }
+        
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-right: 5px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .btn-small:hover {
+            background: #764ba2;
         }
         
         @media (max-width: 768px) {
@@ -179,6 +209,10 @@
             
             .onboarding-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 24px;
             }
         }
     </style>
@@ -302,7 +336,7 @@
                     <textarea id="address" placeholder="Enter full address"></textarea>
                 </div>
                 
-                <button type="submit" class="btn" style="margin-top: 20px;">Save Personal Information</button>
+                <button type="submit" class="btn" style="margin-top: 15px;">Save Personal Information</button>
             </form>
         </div>
         
@@ -327,31 +361,31 @@
                         <td>Background Check Verification</td>
                         <td><span class="status-badge status-active">Completed</span></td>
                         <td>2025-12-15</td>
-                        <td><button class="btn" style="width: 80px; padding: 6px;">View</button></td>
+                        <td><button class="btn-small">View</button></td>
                     </tr>
                     <tr>
                         <td>IT Equipment Allocation</td>
                         <td><span class="status-badge status-active">Completed</span></td>
                         <td>2025-12-18</td>
-                        <td><button class="btn" style="width: 80px; padding: 6px;">View</button></td>
+                        <td><button class="btn-small">View</button></td>
                     </tr>
                     <tr>
                         <td>HR Orientation</td>
                         <td><span class="status-badge status-pending">In Progress</span></td>
                         <td>2025-12-20</td>
-                        <td><button class="btn" style="width: 80px; padding: 6px;">Start</button></td>
+                        <td><button class="btn-small">Start</button></td>
                     </tr>
                     <tr>
                         <td>Policy Training</td>
                         <td><span class="status-badge status-pending">Pending</span></td>
                         <td>2025-12-22</td>
-                        <td><button class="btn" style="width: 80px; padding: 6px;">Start</button></td>
+                        <td><button class="btn-small">Start</button></td>
                     </tr>
                     <tr>
                         <td>Department Introduction</td>
                         <td><span class="status-badge status-pending">Pending</span></td>
                         <td>2025-12-23</td>
-                        <td><button class="btn" style="width: 80px; padding: 6px;">Schedule</button></td>
+                        <td><button class="btn-small">Schedule</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -365,7 +399,6 @@
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 alert('Personal information saved successfully!');
-                // Here you would typically send data to backend
                 form.reset();
             });
         }
