@@ -294,7 +294,7 @@
 
         async function loadJobs() {
             try {
-                const response = await fetch('http://16.16.68.191:3048/api/jobs', {
+                const response = await fetch('http://13.60.237.35:3048/api/jobs', {
                     credentials: 'include'
                 });
                 const jobs = await response.json();
@@ -327,7 +327,7 @@
 
         async function loadCandidates() {
             try {
-                const response = await fetch('http://16.16.68.191:3048/api/candidates', {
+                const response = await fetch('http://13.60.237.35:3048/api/candidates', {
                     credentials: 'include'
                 });
                 const candidates = await response.json();
@@ -375,7 +375,7 @@
             }
 
             try {
-                const response = await fetch('http://16.16.68.191:3048/api/jobs', {
+                const response = await fetch('http://13.60.237.35:3048/api/jobs', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
@@ -399,7 +399,7 @@
 
         async function closeJob(jobId) {
             try {
-                await fetch(`http://16.16.68.191:3048/api/jobs/${jobId}`, {
+                await fetch(`http://13.60.237.35:3048/api/jobs/${jobId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
@@ -415,7 +415,7 @@
             if (!status) return;
             
             try {
-                await fetch(`http://16.16.68.191:3048/api/candidates/${candidateId}`, {
+                await fetch(`http://13.60.237.35:3048/api/candidates/${candidateId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
