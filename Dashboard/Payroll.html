@@ -68,7 +68,7 @@
     <script>
         function loadPayroll() {
             const month = document.getElementById('monthSelect').value;
-            fetch(`http://13.60.237.35:3048/api/payroll/${month}`, { credentials: 'include' })
+            fetch(`http://16.16.68.191:3048/api/payroll/${month}`, { credentials: 'include' })
                 .then(r => r.json())
                 .then(data => {
                     if (data.length === 0) {
